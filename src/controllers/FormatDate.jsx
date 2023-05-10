@@ -1,5 +1,5 @@
 
-function GetDate() {
+function FormatDate() {
 
     const currentDate = new Date();
 
@@ -13,4 +13,4 @@ function GetDate() {
 
 }
 
-export default GetDate;
+export default FormatDate;
