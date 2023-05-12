@@ -8,7 +8,6 @@ const FormatStats = (stats) => {
         const player = e.map(({ id, player: { first_name, last_name }, pts, ast, reb, blk, stl, min, team: { full_name } }) => {
             return { id, name: `${first_name} ${last_name}`, pts, ast, reb, blk, stl, min, team_name: full_name }
         })
-
         return player
     })
 

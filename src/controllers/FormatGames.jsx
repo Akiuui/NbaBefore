@@ -10,12 +10,17 @@ const FormatGames = (games) => {
             visitor_team: { full_name: visitor_name },
             home_team_score,
             visitor_team_score,
+            home_team: { abbreviation: home_team_abbreviation },
+            visitor_team: { abbreviation: visitor_team_abbreviation },
         } = e
 
 
         const home_won = home_team_score > visitor_team_score
 
-        return { id, home_team: home_name, visitor_team: visitor_name, home_team_score, visitor_team_score, home_won }
+        return {
+            id, home_team: home_name, home_team_abbreviation, visitor_team: visitor_name, visitor_team_abbreviation, home_team_score, visitor_team_score, home_won,
+
+        }
     });
 
     return formattedTeams;

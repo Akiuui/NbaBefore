@@ -9,7 +9,7 @@ const FetchStats = async (ids) => {
         return Stats;
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to fetch games");
+        throw new Error("Failed to fetch stats from server");
     }
 }
 export default FetchStats;
