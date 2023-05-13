@@ -2,6 +2,9 @@ import axios from "axios";
 
 const FetchHeadshot = async (first_name, last_name) => {
 
+    const SEARCH_ENGINE_APIKEY = "AIzaSyCGmSdMG11c8w-NQrbs4t5G87MGzrY47P8"
+    const SEARCH_ENGINE_ID = "06076e97b62e2450f"
+
     //Fetch request uses googles api for custom search, we enter the players name,
     //and we from the response take the players id 
 

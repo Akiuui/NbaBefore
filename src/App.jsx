@@ -2,6 +2,7 @@ import GetGames from './controllers/FormatGames'
 import FormatDate from './controllers/FormatDate'
 import GetStats from './controllers/FormatStats'
 import FetchHeadshot from './routes/FetchHeadshot';
+import MostStat from './players/MostStat';
 import React from 'react';
 
 
@@ -13,6 +14,7 @@ function App() {
   const [games, setGames] = useState([])
   const [stats, setStats] = useState([])
   const [gamesId, setGamesId] = useState([])
+  const [mpoints, setMpoints] = useState([])
 
   useEffect(() => {
     FetchData()
@@ -34,8 +36,11 @@ function App() {
       const stats = await GetStats(games_ids)
       setStats(stats)
 
-      const playerHeadshot = await FetchHeadshot(`lebron`, `james`);
-      console.log(playerHeadshot)
+      setMpoints(MostStat(stats, "pts"))
+
+      // const playerHeadshot = await FetchHeadshot(`lebron`, `james`);
+      // console.log(playerHeadshot)
+
     } catch (error) {
       console.error(error);
       throw new Error("Failed to fetch games");
@@ -44,9 +49,10 @@ function App() {
 
   return (
     <>
+      <p>Date: {date}</p>
       {games.map((game, index) => {
 
-        return <li key={game}>
+        return <li key={game.id}>
 
           <h2>{`Game ${index + 1}`}</h2>
           <p>Home team:</p>
@@ -55,17 +61,9 @@ function App() {
           <p>{game.visitor_team_score}</p>
           <p>Visitor team:</p>
           <p>{game.visitor_team}</p>
+          <p>{mpoints[index]?.first_name}</p>
+          <p>{mpoints[index]?.last_name}</p>
 
-          {/* 
-          {stats[index].map((player) => {
-            return <li key={player}>
-              <p>{player.name} {player.pts}</p>
-            </li>
-
-
-
-          })} */}
-          {/* {console.log("Stats: ", stats[index])} */}
         </li>
 
       })}

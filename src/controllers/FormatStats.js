@@ -2,11 +2,10 @@ import FetchStats from "../routes/FetchStats";
 
 const FormatStats = (stats) => {
     const statsArray = stats.map(({ data: { data } }) => { return data }) //Removes nesting from the Array
-
     const formattedStats = statsArray.map((e) => { //Goes through all elements and only retrieves important properties
 
-        const player = e.map(({ id, player: { first_name, last_name }, pts, ast, reb, blk, stl, min, team: { full_name } }) => {
-            return { id, name: `${first_name} ${last_name}`, pts, ast, reb, blk, stl, min, team_name: full_name }
+        const player = e.map(({ id, player: { first_name, last_name }, pts, ast, reb, blk, stl, min, team: { full_name }, turnover }) => {
+            return { id, first_name, last_name, pts, ast, reb, blk, stl, min, team_name: full_name, turnover }
         })
         return player
     })
