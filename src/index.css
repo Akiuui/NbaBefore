@@ -1,6 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --article-bg: #000000;
+
+}
+
 * {
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+body {
+    background-color: #C6C6C6;
+}
+
+.articlecolor {
+    background-color: var(--article-bg);
 
 }

@@ -1,4 +1,3 @@
-import { ConnectionStates } from "mongoose";
 import FetchGames from "../routes/FetchGames";
 
 const FormatGames = (games) => {
@@ -14,8 +13,13 @@ const FormatGames = (games) => {
             visitor_team: { abbreviation: visitor_team_abbreviation },
         } = e
 
-
         const home_won = home_team_score > visitor_team_score
+
+        //const [home_logo, visitor_logo] = await Promise.all([FetchLogo(home_team_abbreviation), FetchLogo(visitor_team_abbreviation)])
+
+        // const home_logo = FetchLogo(home_team_abbreviation)
+        // const visitor_logo = FetchLogo(visitor_team_abbreviation)
+
 
         return {
             id, home_team: home_name, home_team_abbreviation, visitor_team: visitor_name, visitor_team_abbreviation, home_team_score, visitor_team_score, home_won,
