@@ -2,7 +2,7 @@ function TeamsColor(team_abbr) {
     let nba_color
     switch (team_abbr) {
         case "ATL":
-            nba_color = "E03A3E";
+            nba_color = "E13B3F";
             break;
         case "BOS":
             nba_color = "008348";
@@ -20,19 +20,19 @@ function TeamsColor(team_abbr) {
             nba_color = "6F263D";
             break;
         case "DAL":
-            nba_color = "6F263D";
+            nba_color = "0053BC";
             break;
         case "DEN":
             nba_color = "0E2240";
             break;
         case "DET":
-            nba_color = "1D428A";
+            nba_color = "C8102E";
             break;
         case "GSW":
             nba_color = "006BB6";
             break;
         case "HOU":
-            nba_color = "000000";
+            nba_color = "CF093F";
             break;
         case "IND":
             nba_color = "002D62";
@@ -47,7 +47,7 @@ function TeamsColor(team_abbr) {
             nba_color = "5D76A9";
             break;
         case "MIA":
-            nba_color = "000000";
+            nba_color = "8B2231";
             break;
         case "MIL":
             nba_color = "00471B";
@@ -62,13 +62,13 @@ function TeamsColor(team_abbr) {
             nba_color = "006BB6";
             break;
         case "OKC":
-            nba_color = "007AC1";
+            nba_color = "0070B9";
             break;
         case "ORL":
             nba_color = "0077C0";
             break;
         case "PHI":
-            nba_color = "002B5C";
+            nba_color = "006BB6";
             break;
         case "PHX":
             nba_color = "E55F1F";
@@ -80,19 +80,19 @@ function TeamsColor(team_abbr) {
             nba_color = "5A2B81";
             break;
         case "SAS":
-            nba_color = "000000";
+            nba_color = "A0A0A0";
             break;
         case "TOR":
             nba_color = "CE1141";
             break;
         case "UTA":
-            nba_color = "002B5C";
+            nba_color = "2B5134";
             break;
         case "WAS":
             nba_color = "C4CDD3";
             break;
     }
-    return `#${nba_color}`
+    return nba_color
 }
 
 export default TeamsColor;

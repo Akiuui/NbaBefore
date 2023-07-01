@@ -15,12 +15,6 @@ const FormatGames = (games) => {
 
         const home_won = home_team_score > visitor_team_score
 
-        //const [home_logo, visitor_logo] = await Promise.all([FetchLogo(home_team_abbreviation), FetchLogo(visitor_team_abbreviation)])
-
-        // const home_logo = FetchLogo(home_team_abbreviation)
-        // const visitor_logo = FetchLogo(visitor_team_abbreviation)
-
-
         return {
             id, home_team: home_name, home_team_abbreviation, visitor_team: visitor_name, visitor_team_abbreviation, home_team_score, visitor_team_score, home_won,
 
@@ -30,21 +24,36 @@ const FormatGames = (games) => {
     return formattedTeams;
 }
 
-const GetGames = async (date) => {
+
+
+const GetGames = async (date, page) => {
     try {
-        const games = await FetchGames(date);
-        // console.log(games)
+        // let allFormattedGames
+
+        // if (page == 1)
+        //     allFormattedGames = []
+
+        const games = await FetchGames(date, page);
+
         const formattedGames = FormatGames(games);
-        // console.log("Ovo je niz koji koristimo", formattedGames)
+
+        // console.log("Formatirane: ", formattedGames)
+        // console.log("AllFormatirane: ", allFormattedGames)
+
+
+        // setAllFormatedGames([...allFormattedGames, ...formattedGames])
+
+        // allFormattedGames = [...allFormattedGames, ...formattedGames]
+
+        // console.log("All: ", allFormattedGames)
+
         let games_ids = [];
         formattedGames.forEach(({ id }) => games_ids = [...games_ids, id])
-        // console.log("Ovo je niz: ", games_ids)
-
 
         return [games_ids, formattedGames];
     } catch (error) {
         console.error(error.messages);
-        throw new Error("Failed to fetch teams");
+        // throw new Error("Failed to fetch teams");
     }
 }
 

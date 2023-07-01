@@ -1,5 +1,5 @@
 
-function FormatDate() {
+function FormatDate() { //Move can be 1 or -1; That decides if we will increment or decrement 
 
     const currentDate = new Date();
 
