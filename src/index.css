@@ -15,10 +15,55 @@
 }
 
 body {
-    background-color: #C6C6C6;
+    background-color: white;
+    overflow: hidden;
+
+}
+
+.loadingCircle {
+    border-color: black transparent;
+
 }
 
 .articlecolor {
     background-color: var(--article-bg);
+}
 
+.roboto {
+    font-family: 'Inter', sans-serif;
+}
+
+/* 
+.sunShadow {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 0 60px rgba(255, 255, 255, 0.2);
+} */
+
+
+/*Loading circle*/
+.lds-dual-ring {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 58px;
+    height: 58px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid;
+    border-color: black transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

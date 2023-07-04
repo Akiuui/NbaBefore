@@ -11,13 +11,14 @@ const FormatGames = (games) => {
             visitor_team_score,
             home_team: { abbreviation: home_team_abbreviation },
             visitor_team: { abbreviation: visitor_team_abbreviation },
+            postseason,
         } = e
 
         const home_won = home_team_score > visitor_team_score
 
         return {
-            id, home_team: home_name, home_team_abbreviation, visitor_team: visitor_name, visitor_team_abbreviation, home_team_score, visitor_team_score, home_won,
-
+            id, home_team: home_name, home_team_abbreviation, visitor_team: visitor_name,
+            visitor_team_abbreviation, home_team_score, visitor_team_score, home_won, postseason
         }
     });
 
@@ -25,32 +26,24 @@ const FormatGames = (games) => {
 }
 
 
-
-const GetGames = async (date, page) => {
+const GetGames = async (date, page, first_fetch) => {
     try {
-        // let allFormattedGames
 
-        // if (page == 1)
-        //     allFormattedGames = []
+        let pages, games
+        if (first_fetch)
+            [pages, games] = await FetchGames(date, page, true);
+        else {
+            games = await FetchGames(date, page, false);
+            pages = null
+        }
 
-        const games = await FetchGames(date, page);
 
         const formattedGames = FormatGames(games);
-
-        // console.log("Formatirane: ", formattedGames)
-        // console.log("AllFormatirane: ", allFormattedGames)
-
-
-        // setAllFormatedGames([...allFormattedGames, ...formattedGames])
-
-        // allFormattedGames = [...allFormattedGames, ...formattedGames]
-
-        // console.log("All: ", allFormattedGames)
 
         let games_ids = [];
         formattedGames.forEach(({ id }) => games_ids = [...games_ids, id])
 
-        return [games_ids, formattedGames];
+        return [games_ids, formattedGames, pages];
     } catch (error) {
         console.error(error.messages);
         // throw new Error("Failed to fetch teams");
