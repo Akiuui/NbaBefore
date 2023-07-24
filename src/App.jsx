@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import React from 'react';
 
-import GetGames from './controllers/FormatGames'
-import FormatDate from './controllers/FormatDate'
-import FetchLogo from './routes/FetchLogo'
+import GetGames from './controllers/formatData/FormatGames'
+import FormatDate from './controllers/formatData/FormatDate'
 import useDate from './hooks/useDate'
 import Scroll from './listeners/Scroll.js'
 import LoadingProtector from './components/LoadingProtector';
@@ -12,12 +11,15 @@ import LoadingCircle from './components/LoadingCircle';
 import PageFooter from './components/PageFooter.jsx'
 import NavBar from './components/NavBar.jsx'
 
+import ifPlayoff from './controllers/ifPlayoff';
+import ifOffseason from './controllers/ifOffseason'
+import FormatLogos from './controllers/formatData/FormatLogos';
 
 function App() {
   const [date, setDate] = useState('');
   const [games, setGames] = useState([]);
-  const [logosHome, setLogosHome] = useState([]);
-  const [logosAway, setLogosAway] = useState([]);
+  const [logos, setLogos] = useState({})
+
   const [pages, setPages] = useState()
 
   const [isPlayoff, setIsPlayoff] = useState(false)
@@ -30,26 +32,26 @@ function App() {
   const [gamesId, setGamesId] = useState([])
   const [mpoints, setMpoints] = useState([])
 
+  let logos_let
   useEffect(() => {
     /*
     const date = FormatDate();
     setDate(date);
     */
-    setDate("2013-03-29");
-
+    setDate("2013-03-30");
+    logos_let = {}
   }, [])
 
   useEffect(() => {
 
+    // console.log("Promenio si datum!!!")
     setGames([])
     setGamesId([])
-    setLogosHome([])
-    setLogosAway([])
     setLoading(true)
     setShowLoadingCircle(true)
     setIsPlayoff(false)
     setIsOffseason(false)
-    // setPages()
+    setPages()
 
     if (date)
       FetchData(date, 1, true)
@@ -57,54 +59,61 @@ function App() {
   }, [date]);
 
   useEffect(() => {
-
-    if (pages)
+    if (pages && date)
       Scroll(FetchData, date, pages, setShowLoadingCircle)
 
   }, [pages])
 
+  useEffect(() => {
+    console.log("Logos changed!!!");
+  }, [logos]);
 
   const FetchData = async (date, page, first_fetch) => {
 
-    try { //Gets data about games played, and saves them
+    try {
 
+      //Get all information related to games
       const [games_ids, formattedGames, pages] = await GetGames(date, page, first_fetch)
-      if (formattedGames == []) {
-        setIsOffseason(true)
-        return
-      }
-      if (!isPlayoff)
-        formattedGames[0].postseason && setIsPlayoff(true)
 
-      if (pages)
-        setPages(pages)
-
-
+      if (pages) setPages(pages)
       setGames(games => [...games, ...formattedGames])
       setGamesId(gamesId => [...gamesId, ...games_ids])
 
+      //Get logos for the games 
+
+      const formattedLogos = await FormatLogos(formattedGames, logos)
+
+      // logos_let = { ...logos_let, ...formattedLogos }
+      // console.log("Logos let: ", logos_let)
+
+
+      setLogos(logos => ({ ...logos, ...formattedLogos }))
+
+
+      // logos_let = { ...logos_let, ...formattedLogos }
+      // console.log(logos_let)
 
 
 
-      const home_logo = await Promise.all(
-        formattedGames.map(game => {
-          return FetchLogo(game.home_team_abbreviation)
-        }),
-      )
-      setLogosHome(logosHome => [...logosHome, ...home_logo])
 
-      const away_logo = await Promise.all(
-        formattedGames.map(game => {
-          return FetchLogo(game.visitor_team_abbreviation)
-        })
-      )
-      setLogosAway(logosAway => [...logosAway, ...away_logo])
 
+      if (first_fetch) {
+        console.log("Proverava se da li je prvi put")
+        setIsOffseason(
+          ifOffseason(formattedGames)
+        )
+        setIsPlayoff(
+          ifPlayoff(formattedGames)
+        )
+      }
+
+      // console.log("Logos: ", logos_let)
 
       setTimeout(() => {
         setLoading(false) && loading
       }, [250])
 
+      console.log("Izvrsen je FetchData")
 
     } catch (error) {
       console.error(error);
@@ -114,17 +123,21 @@ function App() {
 
   return (
     <>
+      <NavBar date={date} setDate={setDate} isPlayoff={isPlayoff} isOffseason={isOffseason} />
 
-      <NavBar date={date} setDate={setDate} isPlayoff={isPlayoff} />
+      {isOffseason ?
+        <>
+          <p>ITS OFFSEASON</p>
+        </>
+        :
+        <>
+          < ResultsBox games={games} logos={logos} />
 
-      {!isOffseason && loading ? <LoadingProtector /> : null}
+          {showLoadingCircle ? (loading ? null : <LoadingCircle />) : <PageFooter />}
 
-      {!isOffseason && <ResultsBox games={games} logosHome={logosHome} logosAway={logosAway} />}
-
-
-
-      {showLoadingCircle ? (loading ? null : <LoadingCircle />) : <PageFooter />}
-
+          {loading ? <LoadingProtector /> : null}
+        </>
+      }
     </>
   )
 }

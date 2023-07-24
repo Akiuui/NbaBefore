@@ -1,4 +1,4 @@
-import FetchGames from "../routes/FetchGames";
+import FetchGames from "../../routes/FetchGames";
 
 const FormatGames = (games) => {
 

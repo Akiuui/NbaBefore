@@ -1,42 +1,52 @@
-import React from "react";
-import LoadingCircle from "../components/LoadingCircle";
 
 const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
+
+    console.log("Skinuli smo eventListener")
+    document.removeEventListener("scroll", BottomAction);
+
+    setShowLoadingCircle(true)
 
     let page = 2;
     let hasFired = false;
 
-    console.log("DAte:", date)
+    async function BottomAction() {
 
-    console.log("Ukupan broj strana ", pages)
-
-    const BottomAction = async () => {
-
+        console.log("Skrol")
         let documentHeight = document.body.scrollHeight;
         let currentScroll = window.scrollY + window.innerHeight;
-        let modifier = 10;
+        let modifier = 50;
 
         if (currentScroll + modifier > documentHeight && !hasFired) {
-            hasFired = true;
 
-            console.log("Stigao si do dna")
-
-            FetchData(date, page, false)
-            console.log(page)
-
-            setTimeout(() => hasFired = false, [1000])
-
-            if (page == pages) {
-                console.log("Cela se poruka upisala ")
+            if (page > pages) {
                 document.removeEventListener("scroll", BottomAction);
+
+                console.log("Event Listener je skinut")
+
                 setShowLoadingCircle(false)
+            } else {
+
+                hasFired = true;
+
+                FetchData(date, page, false)
+
+                setTimeout(() => hasFired = false, [250])
+
             }
+
             page++;
+
         }
 
     };
 
+
+
+
     document.addEventListener("scroll", BottomAction);
+    console.log("Event Listener je dodat")
+
+
 
 
 };

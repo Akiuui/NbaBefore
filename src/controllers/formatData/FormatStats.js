@@ -1,4 +1,4 @@
-import FetchStats from "../routes/FetchStats";
+import FetchStats from "../../routes/FetchStats";
 
 const FormatStats = (stats) => {
     const statsArray = stats.map(({ data: { data } }) => { return data }) //Removes nesting from the Array

@@ -2,10 +2,10 @@ import React from "react";
 import useColor from "../hooks/useColor";
 import TeamsColor from "../controllers/TeamsColor";
 
-function ResultsBox({ games, logosHome, logosAway }) {
+function ResultsBox({ games, logos }) {
 
     return <ul className='mx-2 mt-16 grid gap-y-20 grid-cols-1 md:grid-cols-2 sm:gap-x-10 sm:mx-6 '>
-        {games.map((game, index) => {
+        {games.map((game) => {
 
 
             let bg_color
@@ -13,7 +13,6 @@ function ResultsBox({ games, logosHome, logosAway }) {
                 bg_color = TeamsColor(game.home_team_abbreviation)
             else
                 bg_color = TeamsColor(game.visitor_team_abbreviation)
-
 
             return <li key={game.id} className="px-4 border-2 border-black relative rounded-lg" style={{ backgroundColor: `#${bg_color}` }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `#${useColor(bg_color, 20)}`}
@@ -28,7 +27,7 @@ function ResultsBox({ games, logosHome, logosAway }) {
                     <div className='pt-[24px] flex flex-col items-center '>
                         <div className=' bg-white border-2 border-black  rounded-full flex items-center justify-center w-[95px] h-[95px] 
       md:w-[100px] md:h-[100px] lg:w-[110px] lg:h-[110px]'>
-                            <img className='w-[80px] md:w-[90px]' src={logosHome[index]} alt="" />
+                            <img className='w-[80px] md:w-[90px]' src={logos[game.home_team_abbreviation]} alt="" />
                         </div>
                         <p className='text-xl pt-1.5' style={{ fontWeight: game.home_won ? 'bold' : 'normal' }}>{game.home_team_abbreviation}</p>
                     </div>
@@ -45,7 +44,7 @@ function ResultsBox({ games, logosHome, logosAway }) {
 
                         <div className='bg-white border-2 border-black w-[95px] h-[95px] rounded-full flex justify-center items-center
       md:w-[100px] md:h-[100px] lg:w-[110px] lg:h-[110px]'>
-                            <img className='w-[80px] md:w-[90px]' src={logosAway[index]} alt="" />
+                            <img className='w-[80px] md:w-[90px]' src={logos[game.visitor_team_abbreviation]} alt="" />
                         </div>
 
                         <p className='text-xl pt-1.5' style={{ fontWeight: game.home_won ? 'normal' : 'bold' }}>{game.visitor_team_abbreviation}</p>

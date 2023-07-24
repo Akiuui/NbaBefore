@@ -15,7 +15,7 @@ const FetchGames = async (date, page, first_fetch) => {
 
     try {
         const response = await axios.get(`https://www.balldontlie.io/api/v1/games?dates[]=${date}&per_page=${per_page}&page=${page}`)
-        console.log(response)
+        // console.log(response)
         if (first_fetch)
             return [response.data.meta.total_pages, response.data.data]
         else

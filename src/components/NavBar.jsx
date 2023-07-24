@@ -2,7 +2,7 @@ import React from "react";
 import useDate from "../hooks/useDate";
 import useMonth from "../hooks/useMonth"
 
-function NavBar({ date, setDate, isPlayoff }) {
+function NavBar({ date, setDate, isPlayoff, isOffseason }) {
 
     let [year, month, day] = date.split('-')
 
@@ -12,7 +12,12 @@ function NavBar({ date, setDate, isPlayoff }) {
 
         <button>Standings</button>
 
-        <h1 className="font-bold text-xl">{isPlayoff ? "PlayOff" : "Regular Season"}</h1>
+        <h1 className="font-bold text-xl">
+            {isPlayoff ? "PlayOff" : null}
+            {isOffseason ? "Offseason" : null}
+            {!isPlayoff && !isOffseason ? "Regular Season" : null}
+
+        </h1>
 
         <div className="flex">
 
