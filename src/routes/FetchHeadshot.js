@@ -2,7 +2,7 @@ import axios from "axios";
 
 const FetchHeadshot = async (first_name, last_name) => {
 
-
+    //CHECK IF THE ENV WORKS
     //Fetch request uses googles api for custom search, we enter the players name,
     //and we from the response take the players id 
 

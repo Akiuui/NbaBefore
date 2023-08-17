@@ -1,7 +1,7 @@
 
 const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
 
-    console.log("Skinuli smo eventListener")
+    // console.log("Skinuli smo eventListener")
     document.removeEventListener("scroll", BottomAction);
 
     setShowLoadingCircle(true)
@@ -14,7 +14,7 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
         console.log("Skrol")
         let documentHeight = document.body.scrollHeight;
         let currentScroll = window.scrollY + window.innerHeight;
-        let modifier = 50;
+        let modifier = 100;
 
         if (currentScroll + modifier > documentHeight && !hasFired) {
 

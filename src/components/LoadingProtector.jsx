@@ -5,15 +5,16 @@ function LoadingProtector() {
 
     useEffect(() => {
 
-        document.body.style.overflowY = 'hidden';
+        const body = document.querySelector('html')
+        body.classList.add('noscroll')
 
         // Cleanup function to restore scroll behavior when component unmounts
         return () => {
-            document.body.style.overflowY = 'auto';
+            body.classList.remove('noscroll')
         };
     }, []);
 
-    return <div className="w-screen h-screen absolute bg-gray-400/60 z-50 flex justify-center items-center">
+    return <div className="w-screen h-screen absolute bg-gray-400/90 z-50 flex justify-center items-center">
 
         <LoadingCircle />
 

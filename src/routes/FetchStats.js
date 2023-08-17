@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const FetchStats = async (ids) => {
+const FetchStats = async (id) => {
     try {
-        const Stats = await Promise.all(
-            ids.map(id => axios.get(`https://www.balldontlie.io/api/v1/stats?per_page=100&game_ids[]=${id}`))
-        )
-
-        return Stats;
+        const response = await axios.get(`https://www.balldontlie.io/api/v1/stats?per_page=100&game_ids[]=${id}`)
+        // console.log(response)
+        return response.data.data;
     } catch (error) {
         console.error(error);
         throw new Error("Failed to fetch stats from server");

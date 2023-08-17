@@ -5,18 +5,62 @@
 
 :root {
     --article-bg: #000000;
-
 }
 
 * {
     margin: 0;
     padding: 0;
     list-style: none;
+    box-sizing: border-box;
 }
 
 body {
     background-color: white;
-    overflow: hidden;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+
+}
+
+.boxshadow {
+    box-shadow: 0px 8px 10px -4px rgba(0, 0, 0, 0.2);
+
+}
+
+.noscroll {
+    position: fixed;
+    overflow-y: scroll;
+}
+
+.statsgrid {
+    grid-template-columns: auto auto 60px 60px 60px 60px 60px 60px 60px;
+
+}
+
+.grid_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #E5E7EB;
+    cursor: pointer;
+}
+
+.grid_header:hover {
+    background-color: rgb(209 213 219);
+}
+
+.grid_header:active {
+    background-color: rgb(111, 115, 122);
+
+}
+
+.grid_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #E5E7EB;
 
 }
 
