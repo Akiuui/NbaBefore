@@ -11,8 +11,10 @@ async function FetchLogo(team_abbr, cache) {
             return urlS
         }
     } catch (error) {
-        console.error(error);
-        throw new Error("Failed to fetch logo from server");
+        if (error.code === "ERR_NETWORK") {
+            console.error("Api is not online");
+            return null
+        }
     }
 
 }

@@ -16,7 +16,7 @@ function useDate(date, move) { //the date arg should be in form of yyyy-mm-dd; m
                 mnt = 12
                 yr--
 
-            } else mnt++
+            } else mnt--
 
             if (mnt == 4 || mnt == 6 || mnt == 9 || mnt == 11) //Checks if we should put days to 30 or 31
                 dy = 30

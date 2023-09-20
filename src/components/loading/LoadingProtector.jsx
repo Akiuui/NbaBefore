@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import LoadingCircle from "./LoadingCircle";
 
-function LoadingProtector() {
+function LoadingProtector({ elementToDisable }) {
 
     useEffect(() => {
 
         const body = document.querySelector('html')
+
         body.classList.add('noscroll')
 
-        // Cleanup function to restore scroll behavior when component unmounts
+        elementToDisable && elementToDisable.forEach(ele => ele.classList.add("disable"))
+
         return () => {
+
             body.classList.remove('noscroll')
+
+            elementToDisable && elementToDisable.forEach(ele => ele.classList.remove("disable"))
         };
     }, []);
 

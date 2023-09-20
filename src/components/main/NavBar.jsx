@@ -1,9 +1,9 @@
-import React from "react";
-import useCalendar from "../hooks/useCalendar";
-import useConvertMonth from "../hooks/useConvertMonth"
+import React, { useEffect } from "react";
+import useCalendar from "../../hooks/useCalendar";
+import useConvertMonth from "../../hooks/useConvertMonth"
 import { Link } from "react-router-dom";
 
-function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo }) {
+function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDisable }) {
 
     let [year, month, day] = date.split('-')
 
@@ -15,8 +15,16 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo }) {
     else if (linkTo == "Results")
         link = '/'
 
-    return <div className="px-2 py-2 grid grid-cols-3 bg-gray-400">
-        {/* px-10 py-2 */}
+    useEffect(() => {
+
+        const buttons = document.querySelectorAll("button")
+        setElementToDisable(buttons)
+
+    }, []);
+
+
+
+    return <div className="px-2 sm:px-10 py-2 grid grid-cols-3 bg-gray-400">
         <div className="flex items-center">
             <Link to={link}>{linkTo}</Link>
         </div>
@@ -37,7 +45,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo }) {
                     <svg className="transform rotate-180" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.5" strokeLinecap="butt" strokeLinejoin="bevel"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 </button>
 
-                <div className="flex bg-black text-[#FFFF00]">
+                <div className="flex bg-black text-[#FFFF00] cursor-pointer">
                     <div className="font-bold text-md">{day + "  "}</div>
                     <div className="text-md">{month + " "}</div>
                     <div className="font-bold text-md">{year}</div>
@@ -77,7 +85,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo }) {
 
         </div> */}
 
-    </div>;
+    </div >;
 }
 
 export default NavBar;

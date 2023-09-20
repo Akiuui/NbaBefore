@@ -14,9 +14,11 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
         console.log("Skrol")
         let documentHeight = document.body.scrollHeight;
         let currentScroll = window.scrollY + window.innerHeight;
-        let modifier = 100;
+        let modifier = 200;
 
         if (currentScroll + modifier > documentHeight && !hasFired) {
+
+            console.log("Fetcuje se novi apge apiaja")
 
             if (page > pages) {
                 document.removeEventListener("scroll", BottomAction);
@@ -30,7 +32,7 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
 
                 FetchData(date, page, false)
 
-                setTimeout(() => hasFired = false, [250])
+                setTimeout(() => hasFired = false, [500])
 
             }
 
@@ -44,7 +46,7 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
 
 
     document.addEventListener("scroll", BottomAction);
-    console.log("Event Listener je dodat")
+    // console.log("Event Listener je dodat")
 
 
 

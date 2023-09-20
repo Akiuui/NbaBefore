@@ -12,16 +12,17 @@ import useCalendar from '../hooks/useCalendar'
 import Scroll from '../events/Scroll.js'
 import useGetDarkerColor from "../hooks/useGetDarkerColor"
 //COMPONENTS
-import DetailsWindow from "../components/DetailsWindow";
-import LoadingProtector from "../components/LoadingProtector"
-import ResultsBox from "../components/ResultsBox"
-import LoadingCircle from "../components/LoadingCircle"
-import PageFooter from "../components/PageFooter"
-import Offseason from "../components/Offseason";
+import DetailsWindow from "../components/main/DetailsWindow";
+import LoadingProtector from "../components/loading/LoadingProtector"
+import LoadingCircle from "../components/loading/LoadingCircle"
+import ResultsBox from "../components/main/ResultsBox"
+import PageFooter from "../components/main/PageFooter"
+import Offseason from "../components/main/Offseason";
 import BoxResult from "../components/BoxResult";
+import BoxResultPlaceholder from "../components/BoxResultPlaceholder";
 
 function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, setLinkTo, from, setFrom,
-    games, setGames, logos, setLogos, showLoadingCircle, setShowLoadingCircle }) {
+    games, setGames, logos, setLogos, elementToDisable }) {
 
 
     const [pages, setPages] = useState()
@@ -31,20 +32,17 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
     const [clickedBoxData, setClickedBoxData] = useState()
     const [indexOfGame, setIndexOfGame] = useState()
 
-    const [stats, setStats] = useState([])
+    const [showLoadingCircle, setShowLoadingCircle] = useState(true)
+
     const [gamesId, setGamesId] = useState([])
-    const [mpoints, setMpoints] = useState([])
 
     useEffect(() => {
-        console.log("Prebacen u Standings")
         setLinkTo("Standings")
 
     }, [setLinkTo]);
 
 
     useEffect(() => {
-        console.log("Desava se")
-
         if (date && (from !== "Standings")) {   //This code is executed when we change dates
             setShowLoadingCircle(true)
             setLoading(true)
@@ -60,25 +58,20 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             setLoading(false)
 
             setFrom(null)
-            console.log("Dosao sam iz Standingsa")
         }
 
     }, [date]);
 
     useEffect(() => {
+
         if (pages && date)
             Scroll(FetchData, date, pages, setShowLoadingCircle)
 
     }, [pages])
 
-    // useEffect(() => {
-    //   console.log("Logos changed!!!");
-    // }, [logos]);
-
     const FetchData = async (date, page, first_fetch) => {
 
         try {
-
             //Get all information related to games
             const [games_ids, formattedGames, pages] = await GetGames(date, page, first_fetch)
 
@@ -87,13 +80,11 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             setGamesId(gamesId => [...gamesId, ...games_ids])
 
             //Get logos for the games 
-
             const formattedLogos = await FormatLogos(formattedGames, logos)
 
             setLogos(logos => ({ ...logos, ...formattedLogos }))
 
             if (first_fetch) {
-                console.log("Proverava se da li je prvi put")
                 setIsOffseason(
                     ifOffseason(formattedGames)
                 )
@@ -104,6 +95,8 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
 
             setTimeout(() => {
                 setLoading(false) && loading
+
+
             }, [250])
 
             console.log("Izvrsen je FetchData")
@@ -118,7 +111,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
 
     return (
         <>
-            {loading ? <LoadingProtector /> : null}
+            {loading ? <LoadingProtector elementToDisable={elementToDisable} /> : null}
 
 
             {isOffseason ? <Offseason />
@@ -168,8 +161,14 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                         />
                         : null}
 
-                    {showLoadingCircle ? (loading ? null : <LoadingCircle />) : <PageFooter />}
 
+                    {showLoadingCircle ? (loading ? null :
+                        (
+                            <>
+                                <LoadingCircle />
+                            </>
+                        )
+                    ) : <PageFooter />}
 
                 </>
             }

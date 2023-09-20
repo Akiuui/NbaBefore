@@ -35,7 +35,7 @@ html {
 }
 
 .statsgrid {
-    grid-template-columns: auto auto 60px 60px 60px 60px 60px 60px 60px;
+    grid-template-columns: 160px 60px 60px 60px 60px 60px 60px 60px;
 
 }
 
@@ -48,11 +48,11 @@ html {
 }
 
 .grid_header:hover {
-    background-color: rgb(209 213 219);
+    background-color: #d1d5db;
 }
 
 .grid_header:active {
-    background-color: rgb(111, 115, 122);
+    background-color: #6f737a;
 
 }
 
@@ -66,8 +66,8 @@ html {
 
 .loadingCircle {
     border-color: black transparent;
-
 }
+
 
 .articlecolor {
     background-color: var(--article-bg);
@@ -75,6 +75,11 @@ html {
 
 .roboto {
     font-family: 'Inter', sans-serif;
+}
+
+.disable {
+    pointer-events: none;
+    opacity: .5;
 }
 
 /* 
@@ -109,5 +114,32 @@ html {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+/*PLACEHOLDER ANIMATION*/
+
+.placeholder {
+    height: 400px;
+    padding: 3vw 2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loader {
+    height: 10px;
+    background: linear-gradient(90deg, rgba(210, 210, 210, 0.5) 0%, rgba(238, 238, 238, 0.7) 100%);
+    border-radius: 10px;
+    animation: loading .7s infinite;
+}
+
+@keyframes loading {
+    from {
+        width: 0%
+    }
+
+    to {
+        width: 100%;
     }
 }
