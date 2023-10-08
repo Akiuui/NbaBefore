@@ -7,6 +7,7 @@ import FormatLogos from '../controllers/formatData/FormatLogos';
 import ifOffseason from "../controllers/ifOffseason";
 import ifPlayoff from "../controllers/ifPlayoff";
 import TeamsColor from "../controllers/TeamsColor";
+import FetchFormatAndSaveLogos from "../routes/FetchFormatAndSaveLogos"
 //HOOKS
 import useCalendar from '../hooks/useCalendar'
 import Scroll from '../events/Scroll.js'
@@ -51,6 +52,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             setIsOffseason(false)
             setPages()
             setGames([])
+            setLogos({})
             FetchData(date, 1, true)
 
         }
@@ -79,10 +81,15 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             setGames(games => [...games, ...formattedGames])
             setGamesId(gamesId => [...gamesId, ...games_ids])
 
-            //Get logos for the games 
-            const formattedLogos = await FormatLogos(formattedGames, logos)
+            //Get logos for the games
 
-            setLogos(logos => ({ ...logos, ...formattedLogos }))
+            const year = date.split('-')[0]
+            FetchFormatAndSaveLogos(formattedGames, Number(year), setLogos)
+
+
+            // const formattedLogos = await FormatLogos(formattedGames, logos)
+
+            // setLogos(logos => ({ ...logos, ...formattedLogos }))
 
             if (first_fetch) {
                 setIsOffseason(

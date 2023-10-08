@@ -1,7 +1,7 @@
 
-function useMonth(month) {
+function useNumberToMonth(number) {
     let name
-    switch (month) {
+    switch (number) {
         case "01":
             name = "JAN"
             break;
@@ -43,4 +43,4 @@ function useMonth(month) {
     return name
 }
 
-export default useMonth;
+export default useNumberToMonth;

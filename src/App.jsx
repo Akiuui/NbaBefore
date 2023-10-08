@@ -7,6 +7,8 @@ import Standings from "./pages/Standings";
 import NavBar from "./components/main/NavBar";
 //DEPENDENCY
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
   return (
 
     <>
+      <ToastContainer />
+
       <NavBar
         date={date}
         isPlayoff={isPlayoff}

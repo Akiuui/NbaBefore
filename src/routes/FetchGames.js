@@ -1,4 +1,5 @@
 import axios from "axios";
+import FixGames from "./FIxGames";
 
 const FetchGames = async (date, page, first_fetch) => {
 
@@ -16,15 +17,16 @@ const FetchGames = async (date, page, first_fetch) => {
         per_page = per_page * 2
     try {
         const response = await axios.get(`https://www.balldontlie.io/api/v1/games?dates[]=${date}&per_page=${per_page}&page=${page}`)
-        // console.log(response.data.data.length)
+
+        const games = FixGames(response.data.data, date)
+
         if (first_fetch)
-            return [response.data.meta.total_pages, response.data.data]
+            return [response.data.meta.total_pages, games]
         else
-            return response.data.data
+            return games
 
     } catch (error) {
         console.error(error);
-        alert(error);
         throw new Error("Failed to fetch games from server");
     }
 

@@ -4,6 +4,8 @@
 
 
 :root {
+    /* overriding toastify variables */
+    --toastify-toast-width: auto;
     --article-bg: #000000;
 }
 

@@ -91,6 +91,21 @@ function TeamsColor(team_abbr) {
         case "WAS":
             nba_color = "C4CDD3";
             break;
+        case "SEA":
+            nba_color = "00653A";
+            break;
+        case "NJN":
+            nba_color = "02275D";
+            break;
+        case "BUF":
+            nba_color = "FF6314";
+            break;
+        case "CIN":
+            nba_color = "C63100";
+            break;
+        case "VAN":
+            nba_color = "00B2A9";
+            break;
     }
     return nba_color
 }
