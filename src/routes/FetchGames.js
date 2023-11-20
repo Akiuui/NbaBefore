@@ -1,5 +1,5 @@
 import axios from "axios";
-import FixGames from "./FIxGames";
+import FixGames from "./FixGames";
 
 const FetchGames = async (date, page, first_fetch) => {
 

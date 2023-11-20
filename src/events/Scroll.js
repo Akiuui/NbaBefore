@@ -1,29 +1,28 @@
+let prevBottomAction = null
 
 const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
 
-    // console.log("Skinuli smo eventListener")
-    document.removeEventListener("scroll", BottomAction);
+    if (prevBottomAction)
+        document.removeEventListener("scroll", prevBottomAction);
 
     setShowLoadingCircle(true)
 
     let page = 2;
     let hasFired = false;
 
+    document.addEventListener("scroll", BottomAction);
+    prevBottomAction = BottomAction
+
     async function BottomAction() {
 
-        console.log("Skrol")
         let documentHeight = document.body.scrollHeight;
         let currentScroll = window.scrollY + window.innerHeight;
         let modifier = 200;
 
         if (currentScroll + modifier > documentHeight && !hasFired) {
 
-            console.log("Fetcuje se novi apge apiaja")
-
             if (page > pages) {
                 document.removeEventListener("scroll", BottomAction);
-
-                console.log("Event Listener je skinut")
 
                 setShowLoadingCircle(false)
             } else {
@@ -32,7 +31,7 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
 
                 FetchData(date, page, false)
 
-                setTimeout(() => hasFired = false, [500])
+                setTimeout(() => hasFired = false, [100])
 
             }
 
@@ -41,15 +40,6 @@ const ScrollListener = (FetchData, date, pages, setShowLoadingCircle) => {
         }
 
     };
-
-
-
-
-    document.addEventListener("scroll", BottomAction);
-    // console.log("Event Listener je dodat")
-
-
-
 
 };
 

@@ -5,13 +5,6 @@ import BoxResult from "../BoxResult";
 
 function ResultsBox({ games, logos, setShowDetails, setClickedBoxData, setIndexOfGame }) {
 
-    // function SetStateWhenLastElementLoaded(index) {
-
-    //     if ((index + 1) % games.length == 0) {
-    //         console.log(index)
-    //     }
-
-    // }
     return <ul className='mx-2 mt-16 grid gap-y-20 grid-cols-1 md:grid-cols-2 sm:gap-x-10 sm:mx-6 '>
         {games.map((game, index) => {
 

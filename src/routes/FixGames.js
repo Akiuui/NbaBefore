@@ -85,9 +85,6 @@ const FixGames = (games, date) => {
 
     })
 
-    console.log(games)
-
-
     return games
 
 };

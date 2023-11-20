@@ -40,6 +40,7 @@ function App() {
   return (
 
     <>
+      <link rel="preload" href="placeholder_logo.png" as="image" />
       <ToastContainer />
 
       <NavBar

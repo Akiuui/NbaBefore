@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import MostStat from "../controllers/players/MostStat"
 import FetchHeadshot from "../routes/FetchHeadshot";
-// import headshot_placeholder from "../../public/images/headshot_placeholder"
 
 const HeadShotsBox = ({ stats }) => {
 
@@ -10,8 +9,7 @@ const HeadShotsBox = ({ stats }) => {
 
     const [playersImages, setPlayersImages] = useState({})
 
-    const wantedStats = ["pts", "ast"]
-    // , "reb", "blk" 
+    const wantedStats = ["pts", "ast", "reb", "blk"]
 
     useEffect(() => {//Here we get top perfoming players when we get stats state
 
@@ -44,7 +42,6 @@ const HeadShotsBox = ({ stats }) => {
     function PlayerInfo({ player, index, playersImages, setPlayersImages }) {
 
         const [imageURL, setImageURL] = useState('');
-        const [isLoading, setIsLoading] = useState(true);
 
         useEffect(() => {
 
@@ -66,25 +63,11 @@ const HeadShotsBox = ({ stats }) => {
             fetchImage();
         }, [player]);
 
-        // useEffect(() => {
-        //     if (imageURL) {
-        //         setPlayersImages(prevPlayersImages => ({
-        //             ...prevPlayersImages,
-        //             [`${player.first_name}_${player.last_name}`]: imageURL
-        //         }));
-        //     }
-        // }, [imageURL, player]);
-
         return <li className="flex flex-col justify-center items-center border border-gray-300 rounded-xl bg-gray-100 hover:bg-gray-200">
             <h2>Stat leader in {FullNameOfStat(wantedStats[index])}</h2>
             <p className="font-bold pb-2">{`${player.first_name} ${player.last_name}`}</p>
 
-            {isLoading ? (
-                <img className="w-[200px] h-[150px]" src="/images/headshot_placeholder.png" />
-            ) : (
-                <img className="w-[200px] h-[150px]" src={imageURL} />
-            )}
-
+            <img className="w-[200px] h-[150px]" src={imageURL || "/images/headshot_placeholder.png"} />
         </li>
     }
 

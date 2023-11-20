@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 //CONTROLERS
 import GetGames from '../controllers/formatData/FormatGames'
-import FormatLogos from '../controllers/formatData/FormatLogos';
 import ifOffseason from "../controllers/ifOffseason";
 import ifPlayoff from "../controllers/ifPlayoff";
 import TeamsColor from "../controllers/TeamsColor";
@@ -20,17 +19,16 @@ import ResultsBox from "../components/main/ResultsBox"
 import PageFooter from "../components/main/PageFooter"
 import Offseason from "../components/main/Offseason";
 import BoxResult from "../components/BoxResult";
-import BoxResultPlaceholder from "../components/BoxResultPlaceholder";
+import useToast from "../hooks/useToast.js"
 
 function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, setLinkTo, from, setFrom,
     games, setGames, logos, setLogos, elementToDisable }) {
-
 
     const [pages, setPages] = useState()
 
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
-    const [clickedBoxData, setClickedBoxData] = useState()
+    // const [clickedBoxData, setClickedBoxData] = useState()
     const [indexOfGame, setIndexOfGame] = useState()
 
     const [showLoadingCircle, setShowLoadingCircle] = useState(true)
@@ -39,7 +37,6 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
 
     useEffect(() => {
         setLinkTo("Standings")
-
     }, [setLinkTo]);
 
 
@@ -54,7 +51,6 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             setGames([])
             setLogos({})
             FetchData(date, 1, true)
-
         }
         else { //This code is being executed if the user is coming from react router  
             setLoading(false)
@@ -78,18 +74,21 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             const [games_ids, formattedGames, pages] = await GetGames(date, page, first_fetch)
 
             if (pages) setPages(pages)
+            console.log(pages)
+
             setGames(games => [...games, ...formattedGames])
             setGamesId(gamesId => [...gamesId, ...games_ids])
 
+            let timer
+            if (first_fetch) {
+                timer = setTimeout(
+                    () => useToast('Our logos are taking a bit to load, they will come soon!', "top-left", 2000)
+                    , 2000
+                )
+            }
             //Get logos for the games
-
             const year = date.split('-')[0]
-            FetchFormatAndSaveLogos(formattedGames, Number(year), setLogos)
-
-
-            // const formattedLogos = await FormatLogos(formattedGames, logos)
-
-            // setLogos(logos => ({ ...logos, ...formattedLogos }))
+            FetchFormatAndSaveLogos(formattedGames, Number(year), setLogos, timer)
 
             if (first_fetch) {
                 setIsOffseason(
@@ -102,11 +101,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
 
             setTimeout(() => {
                 setLoading(false) && loading
-
-
             }, [250])
-
-            console.log("Izvrsen je FetchData")
 
         } catch (error) {
             console.error(error);
@@ -114,7 +109,22 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
         }
     }
 
+    function WhenToShowLoadingCricle() {
+        let content
+        if (showLoadingCircle) {
+            if (pages == 1)
+                content = <PageFooter />
+            else
+                content = <LoadingCircle />
+        } else {
+            content = <PageFooter />
+        }
 
+        if (loading)
+            content = <></>
+
+        return content
+    }
 
     return (
         <>
@@ -124,7 +134,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             {isOffseason ? <Offseason />
                 :
                 <>
-                    <ul className='mx-2 mt-16 grid gap-y-20 grid-cols-1 md:grid-cols-2 sm:gap-x-10 sm:mx-6 '>
+                    <ul className='mx-2 mt-16 grid gap-y-20 grid-cols-1 md:grid-cols-2 sm:gap-x-10 sm:mx-6'>
                         {games.map((game, index) => {
 
                             let bg_color
@@ -138,10 +148,11 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = `#${bg_color}`}
                                 onClick={(e) => {
                                     setShowDetails(true)
-                                    setClickedBoxData(e)
+                                    // setClickedBoxData(e)
                                     setIndexOfGame(index)
                                 }}
                             >
+
                                 <div className='w-5 h-5 bg-gray-300/50 rounded-full absolute right-2 top-2 flex justify-center items-center cursor-pointer hover:bg-gray-300/75'>
                                     <p className='bold text-bg italic'>i</p>
                                 </div>
@@ -149,7 +160,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                                 <BoxResult
                                     game={game}
                                     logos={logos}
-                                    index={index} home_name={game.home_team_abbreviation}
+                                    home_name={game.home_team_abbreviation}
                                     visitor_name={game.visitor_team_abbreviation} />
                             </li>
 
@@ -160,22 +171,14 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                     {showDetails ?
                         <DetailsWindow
                             setShowDetails={setShowDetails}
-
+                            showDetails={showDetails}
                             currentGameId={gamesId[indexOfGame]}
                             currentGame={games[indexOfGame]}
-
                             logos={logos}
                         />
                         : null}
 
-
-                    {showLoadingCircle ? (loading ? null :
-                        (
-                            <>
-                                <LoadingCircle />
-                            </>
-                        )
-                    ) : <PageFooter />}
+                    <WhenToShowLoadingCricle />
 
                 </>
             }

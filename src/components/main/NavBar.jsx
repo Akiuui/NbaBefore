@@ -95,6 +95,9 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
                 if (parseInt(numericValue[0]) === 1 && parseInt(numericValue[1]) > 2)
                     numericValue = "12"
 
+                if (parseInt(numericValue[0]) > 1)
+                    numericValue = `${parseInt(numericValue[0])}`
+
                 setMonthState(numericValue)
 
                 setMonthDisplay(numericValue)
@@ -114,7 +117,6 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
     }
 
     function InputMonthBlur(month) {
-
         if (!isNaN(month[0])) {
 
             if (parseInt(month[0]) !== 0 && parseInt(month) < 10)
@@ -129,10 +131,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
             setMonthState(month)
 
             setMonthDisplay(useNumberToMonth(month))
-        } else {
-
         }
-
         yearInputRef.current.focus()
 
     }
@@ -143,6 +142,10 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
 
             if (parseInt(year[0]) === 0)
                 year = 1
+            if (parseInt(year[0]) === 1 && parseInt(year[1]) < 9)
+                year = 19
+            if (parseInt(year[0]) === 1 && parseInt(year[1]) === 9 && parseInt(year[2]) < 6)
+                year = 196
             if (parseInt(year[0]) > 2)
                 year = 2
             if (parseInt(year[0]) === 2 && parseInt(year[1]) > 0)
@@ -170,8 +173,10 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
 
     function InputYearBlur(year) {
 
-        if (year === "")
+        if (year === "") {
+            year = 2013
             setYearState("2013")
+        }
 
         if (monthStateIsNumber)
             setMonthDisplay(useNumberToMonth(monthState))
@@ -179,14 +184,14 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
             setMonthDisplay(useMonthToNumber(monthState))
 
 
-        setDate(`${yearState}-${monthState}-${dayState}`)
+        setDate(`${year}-${monthState}-${dayState}`)
 
+        if (yearInputRef.current)
+            yearInputRef.current.blur()
 
-        yearInputRef.current.blur()
         notify()
 
     }
-
 
     function onEnterGoToTheNextElement(event) {
         if (event.key === "Enter") {
@@ -203,14 +208,14 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
         }
     }
 
-
-    return <div className="px-2 sm:px-10 py-2 grid grid-cols-3 bg-gray-400">
+    return <div className="boxshadow sticky top-0 z-50 px-2 sm:px-10 py-2 grid grid-cols-3 bg-gray-400">
         <div className="flex items-center">
             <Link to={link}>{linkTo}</Link>
         </div>
 
         <div className="flex justify-center">
-            <h1 className="font-bold text-l">
+            <h1 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="font-bold text-l cursor-pointer">
                 {isPlayoff ? "PlayOff" : null}
                 {isOffseason ? "Offseason" : null}
                 {!isPlayoff && !isOffseason ? "Regular Season" : null}
@@ -239,8 +244,10 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
                         value={dayState}
                         ref={dayInputRef}
                         maxLength="2"
+                        onClick={() => dayInputRef.current.select()}
                         onChange={e => HandleDayInput(e.target.value)}
                         onKeyDown={event => onEnterGoToTheNextElement(event)}
+                        // onBlur={InputDayBlur(dayState)}
                         className="w-[20px] bg-black text-center font-bold text-md"
                     />
                     <input
@@ -249,9 +256,11 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
                         value={monthDisplay}
                         ref={monthInputRef}
                         maxLength="3"
+                        onClick={() => monthInputRef.current.select()}
                         onChange={e => HandleMonthInput(e.target.value)}
                         onKeyDown={event => onEnterGoToTheNextElement(event)}
-                        className="w-[40px] ml-[2px] text-center bg-black font-bold text-md"
+                        // onBlur={InputMonthBlur(monthState)}
+                        className="w-[43px] text-center bg-black font-bold text-md"
                     />
                     <input
                         type="text"
@@ -259,8 +268,10 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
                         value={yearState}
                         ref={yearInputRef}
                         maxLength="4"
+                        onClick={() => yearInputRef.current.select()}
                         onChange={e => HandleYearInput(e.target.value)}
                         onKeyDown={event => onEnterGoToTheNextElement(event)}
+                        // onBlur={InputYearBlur(yearState)}
                         className="w-[40px] bg-black ml-[2px] text-center font-bold text-md"
                     />
                 </div>
