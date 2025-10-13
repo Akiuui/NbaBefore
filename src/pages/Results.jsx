@@ -11,6 +11,7 @@ import FetchFormatAndSaveLogos from "../routes/FetchFormatAndSaveLogos"
 import useCalendar from '../hooks/useCalendar'
 import Scroll from '../events/Scroll.js'
 import useGetDarkerColor from "../hooks/useGetDarkerColor"
+import useFindContrast from "../hooks/useFindContrast.js"
 //COMPONENTS
 import DetailsWindow from "../components/main/DetailsWindow";
 import LoadingProtector from "../components/loading/LoadingProtector"
@@ -21,14 +22,17 @@ import Offseason from "../components/main/Offseason";
 import BoxResult from "../components/BoxResult";
 import useToast from "../hooks/useToast.js"
 
-function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, setLinkTo, from, setFrom,
-    games, setGames, logos, setLogos, elementToDisable }) {
+function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason,
+    /*games, setGames,*/ logos, setLogos, elementToDisable }) {
 
     const [pages, setPages] = useState()
+    const [games, setGames] = useState([]);
+
+    const [allGames, setAllGames] = useState([])
+    
 
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
-    // const [clickedBoxData, setClickedBoxData] = useState()
     const [indexOfGame, setIndexOfGame] = useState()
 
     const [showLoadingCircle, setShowLoadingCircle] = useState(true)
@@ -36,12 +40,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
     const [gamesId, setGamesId] = useState([])
 
     useEffect(() => {
-        setLinkTo("Standings")
-    }, [setLinkTo]);
-
-
-    useEffect(() => {
-        if (date && (from !== "Standings")) {   //This code is executed when we change dates
+        if (date) {   //This code is executed when we change dates
             setShowLoadingCircle(true)
             setLoading(true)
             setGamesId([])
@@ -55,7 +54,6 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
         else { //This code is being executed if the user is coming from react router  
             setLoading(false)
 
-            setFrom(null)
         }
 
     }, [date]);
@@ -74,7 +72,6 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             const [games_ids, formattedGames, pages] = await GetGames(date, page, first_fetch)
 
             if (pages) setPages(pages)
-            console.log(pages)
 
             setGames(games => [...games, ...formattedGames])
             setGamesId(gamesId => [...gamesId, ...games_ids])
@@ -82,13 +79,13 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
             let timer
             if (first_fetch) {
                 timer = setTimeout(
-                    () => useToast('Our logos are taking a bit to load, they will come soon!', "top-left", 2000)
+                    () => useToast('Our logos are taking a bit to load, they will come soon!', "top-left", 2000, "warning")
                     , 2000
                 )
             }
             //Get logos for the games
-            const year = date.split('-')[0]
-            FetchFormatAndSaveLogos(formattedGames, Number(year), setLogos, timer)
+            // const year = date.split('-')[0]
+            // FetchFormatAndSaveLogos(formattedGames, Number(year), setLogos, timer)
 
             if (first_fetch) {
                 setIsOffseason(
@@ -143,12 +140,15 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                             else
                                 bg_color = TeamsColor(game.visitor_team_abbreviation)
 
+                            let font_color = "black"
+                            if (useFindContrast(`#${bg_color}`, "#000000") < 2)
+                                font_color = "white"
+
                             return <li key={game.id} id="parentElement" className="px-4 border-2 border-black relative rounded-lg" style={{ backgroundColor: `#${bg_color}` }}
                                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `#${useGetDarkerColor(bg_color, 20)}`}
                                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = `#${bg_color}`}
                                 onClick={(e) => {
                                     setShowDetails(true)
-                                    // setClickedBoxData(e)
                                     setIndexOfGame(index)
                                 }}
                             >
@@ -161,7 +161,8 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                                     game={game}
                                     logos={logos}
                                     home_name={game.home_team_abbreviation}
-                                    visitor_name={game.visitor_team_abbreviation} />
+                                    visitor_name={game.visitor_team_abbreviation}
+                                    font_color />
                             </li>
 
                         })}
@@ -179,6 +180,7 @@ function Results({ date, setIsPlayoff, setIsOffseason, isPlayoff, isOffseason, s
                         : null}
 
                     <WhenToShowLoadingCricle />
+                    
 
                 </>
             }

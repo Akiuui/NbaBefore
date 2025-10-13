@@ -1,6 +1,6 @@
 import React from "react";
 
-function BoxResult({ game, logos, home_name, visitor_name }) {
+function BoxResult({ game, logos, home_name, visitor_name, font_color }) {
 
     return <div className='flex justify-center px-2'>
         <div className='pt-[24px] flex flex-col items-center '>
@@ -11,9 +11,10 @@ function BoxResult({ game, logos, home_name, visitor_name }) {
                     alt={`${game.home_team} logo`}
                 />
             </div>
-            <p className='text-xl pt-1.5' style={{ fontWeight: game.home_won ? 'bold' : 'normal' }}>{home_name}</p>
+            <p className="text-xl pt-1.5"
+                style={{ fontWeight: game.home_won ? 'bold' : 'normal' }}
+            >{home_name}</p>
         </div>
-
         <div className='flex flex-col items-center justify-center'>
             <div className='flex items-center'>
                 <p className='pl-4 text-2xl lg:text-3xl' style={{ fontWeight: game.home_won ? 'bold' : 'normal' }}>{game.home_team_score}</p>

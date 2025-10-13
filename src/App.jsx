@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 //PAGES
 import Results from "./pages/Results";
-import Standings from "./pages/Standings";
 //COMPONENTS
 import NavBar from "./components/main/NavBar";
 //DEPENDENCY
@@ -17,16 +16,11 @@ function App() {
   const [isOffseason, setIsOffseason] = useState(false)
 
   //States related to NavBar
-  const [linkTo, setLinkTo] = useState("Standings")
   const [from, setFrom] = useState()
   const [elementToDisable, setElementToDisable] = useState()
 
-
-
   //Think about context
-  const [games, setGames] = useState([]);
   const [logos, setLogos] = useState({})
-
 
 
   useEffect(() => {
@@ -47,7 +41,6 @@ function App() {
         date={date}
         isPlayoff={isPlayoff}
         isOffseason={isOffseason}
-        linkTo={linkTo}
         setDate={setDate}
         setElementToDisable={setElementToDisable}
       />
@@ -55,26 +48,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Results
           date={date}
-          games={games}
-          setGames={setGames}
+          // games={games}
+          // setGames={setGames}
           logos={logos}
           setLogos={setLogos}
           isOffseason={isOffseason}
           isPlayoff={isPlayoff}
           setIsOffseason={setIsOffseason}
           setIsPlayoff={setIsPlayoff}
-          setLinkTo={setLinkTo}
-          from={from}
-          setFrom={setFrom}
-          // showLoadingCircle={showLoadingCircle}
-          // setShowLoadingCircle={setShowLoadingCircle}
           elementToDisable={elementToDisable}
         />}
         />
-        <Route path="/standings" element={<Standings
-          setLinkTo={setLinkTo}
-          setFrom={setFrom}
-          logos={logos} />} />
       </Routes>
 
     </>

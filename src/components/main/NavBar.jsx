@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import useCalendar from "../../hooks/useCalendar";
 import useNumberToMonth from "../../hooks/useNumberToMonth"
 import useMonthToNumber from "../../hooks/useMonthToNumber"
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify"
-
-function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDisable }) {
+import useToast from "../../hooks/useToast";
+function NavBar({ date, setDate, isPlayoff, isOffseason, setElementToDisable }) {
 
     const [year, month, day] = date.split('-')
 
@@ -30,12 +28,6 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
         setMonthDisplay(useNumberToMonth(month))
         setYearState(year)
     }, [date]);
-
-    let link
-    if (linkTo == "Standings")
-        link = "standings"
-    else if (linkTo == "Results")
-        link = '/'
 
     useEffect(() => { //When the page loads i get all elements that i need to disable when loadingProtector is mounted
 
@@ -160,17 +152,6 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
 
     }
 
-    const notify = () => toast.success('Changed the date!   ', {
-        position: "top-left",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
-
     function InputYearBlur(year) {
 
         if (year === "") {
@@ -189,7 +170,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
         if (yearInputRef.current)
             yearInputRef.current.blur()
 
-        notify()
+        useToast("Changed the Date!", "top-left", 2000, "info")
 
     }
 
@@ -208,10 +189,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
         }
     }
 
-    return <div className="boxshadow sticky top-0 z-50 px-2 sm:px-10 py-2 grid grid-cols-3 bg-gray-400">
-        <div className="flex items-center">
-            <Link to={link}>{linkTo}</Link>
-        </div>
+    return <div className="boxshadow flex justify-between sticky top-0 z-50 px-2 sm:px-10 py-2 bg-gray-400">
 
         <div className="flex justify-center">
             <h1 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -222,7 +200,7 @@ function NavBar({ date, setDate, isPlayoff, isOffseason, linkTo, setElementToDis
             </h1>
         </div>
 
-        <div className="flex justify-end items-center">
+        <div className="items-center">
             <div className="flex">
 
                 <button

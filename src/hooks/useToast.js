@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
-function useToast(text, position, length) {
-    toast.info(text
-        , {
+function useToast(text, position, length, type) {
+    toast[type](text,
+        {
             position: position,
             hideProgressBar: true,
             pauseOnHover: true,
