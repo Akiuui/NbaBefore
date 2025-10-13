@@ -8,8 +8,16 @@ class Game{
             home: null,
             visitor: null
         }
+        this.players = []
     }
-
+    addPlayers(allPlayers){
+        if(this.players.length > 0){
+            console.log("Vec je napunjeno")
+            return
+        }
+        this.players.push(allPlayers)
+        console.log("Dodato")
+    }
     setHomeTeam(team){
         this.teams.home = team
     }

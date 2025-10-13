@@ -7,6 +7,7 @@ import ScrollListener from './ScrollListener';
 import LoadingCircle from './loading/loadingCircle';
 import PageFooter from './PageFooter';
 import fetchGames from '../routes/fetchGames';
+import fixWrongGameNames from '../controllers/fixWrongGameNames';
 
 function FetchGames({setGames, date}) {
 
@@ -35,6 +36,7 @@ function FetchGames({setGames, date}) {
 
             try{
                 let res = await fetchGames({cursor: cursor, date: date})
+                res = fixWrongGameNames(res, date)
 
                 setFirstFetch(false)
                 setNextCursor(res.data.meta.next_cursor/*res.data.meta.next_cursor != undefined*/)
@@ -44,6 +46,7 @@ function FetchGames({setGames, date}) {
 
             }catch(err){
                 setError(err.message || "Failed to fetch data")
+                console.log(err)
             }finally{ 
                 setLoading(false)
             }

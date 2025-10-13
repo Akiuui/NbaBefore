@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useEffect, useRef } from "react";
 import BoxResult from "./BoxResult";
 import StatsTable from "./StatsTable"
+import fetchStats from "../routes/fetchStats";
+import {statsToObjectFormatter} from "../controllers/statsToObjectFormatter.js";
 
 function DetailsWindow({ selectedGame, onClose, date  }) {
 
@@ -53,7 +55,7 @@ function DetailsWindow({ selectedGame, onClose, date  }) {
     useEffect(() => {
         //Fetches, formats and sets Stats   
         // FetchData()
-
+        FetchData()
         HandleSideEffects()
 
     }, []);
@@ -85,25 +87,17 @@ function DetailsWindow({ selectedGame, onClose, date  }) {
 
     async function FetchData() {
 
-        // let [first_team, second_team] = await GetStats(currentGameId)
+        fetchStats({date: date, teamAbbr: selectedGame.teams.home.abbr})
+        
+        
+        // let [homeStat, visitorStat] = statsToObjectFormatter(res.data)
 
-        // let home_stats
-        // let visitor_stats
+        // setHomeStats(homeStat)
+        // setVisitorStats(visitorStat)
 
-        // if (first_team[1].team_abbr === currentGame.home_team_abbreviation) {
-        //     home_stats = first_team
-        //     visitor_stats = second_team
-        // }
-        // else {
-        //     home_stats = second_team
-        //     visitor_stats = first_team
-        // }
+        // selectedGame.addPlayers([...homeStat, ...visitorStat])
 
-        // setHomeStats(home_stats)
-        // setVisitorStats(visitor_stats)
-
-
-        // setDisplayedStats(home_stats)
+        // setDisplayedStats(homeStat)
 
     }
 
@@ -122,7 +116,7 @@ function DetailsWindow({ selectedGame, onClose, date  }) {
 
     return <div className="w-[100%] h-[100%] z-40 fixed p-2 top-0 flex justify-center items-center">
 
-        <div ref={detailsRef} tabIndex="0" onBlur={() => ComponentUnmounted()} className="fade-exit transition-all duration-700 bg-white flex flex-col relative h-[85%] border-2 border-black boxshadow rounded-lg z-50 p-2 sm:p-4 overflow-hidden focus:outline-none" >
+        <div ref={detailsRef} tabIndex="0" /*onBlur={() => ComponentUnmounted()}*/ className="fade-exit transition-all duration-700 bg-white flex flex-col relative h-[85%] border-2 border-black boxshadow rounded-lg z-50 p-2 sm:p-4 overflow-hidden focus:outline-none" >
             <>
 
                 <div onClick={() => ComponentUnmounted()} className="absolute p-[2px] top-2 right-2 rounded-full cursor-pointer bg-gray-300 ">

@@ -7,14 +7,13 @@ function SortStats(stats, typeOfStat, isFalling) { //If isFalling is true we wil
         for (let j = 0; j < n - i - 1; j++) {
 
             if (isFalling) {
-                if (sortedStats[j][typeOfStat] < sortedStats[j + 1][typeOfStat]) {
-
+                if (sortedStats[j]["stats"][typeOfStat] < sortedStats[j + 1][typeOfStat]) {
                     const temp = sortedStats[j];
                     sortedStats[j] = sortedStats[j + 1];
                     sortedStats[j + 1] = temp;
                 }
             } else {
-                if (sortedStats[j][typeOfStat] > sortedStats[j + 1][typeOfStat]) {
+                if (sortedStats[j]["stats"][typeOfStat] > sortedStats[j + 1][typeOfStat]) {
 
                     const temp = sortedStats[j];
                     sortedStats[j] = sortedStats[j + 1];
@@ -24,7 +23,7 @@ function SortStats(stats, typeOfStat, isFalling) { //If isFalling is true we wil
 
         }
     }
-
+    // console.log(sortedStats)
     return sortedStats
 }
 
