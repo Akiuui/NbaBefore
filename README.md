@@ -1,65 +1,54 @@
+# 🏀 NbaBefore
 
-🏀 NbaBefore
-NbaBefore is a nostalgic, dynamic single-page application designed to transport NBA fans back in time. The site functions as a "time capsule" set in the 2013/2014 season, allowing users to explore team statistics and logos as they appeared a decade ago.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-🔗 Live Demo: nbabeforeclient.onrender.com
+**NbaBefore** is a dynamic, one-page site that brings back the nostalgia of the NBA from a decade ago. Designed to act as a time capsule for the **2013/2014 season**, it showcases team stats and logos as they were during that era.
 
-📅 Project Vision
-The goal of this project is to provide a snapshot of NBA history. By leveraging historical data, the app recreates the league's atmosphere from 10 years ago, serving as both a statistical tool and a nostalgia trip for basketball enthusiasts.
+🔗 **Live Demo:** [nbabeforeclient.onrender.com](https://nbabeforeclient.onrender.com)
 
-🚀 Features
-Time-Travel Interface: A UI themed around the 2013/2014 NBA season.
+---
 
-Dynamic Stats: Real-time data fetching for historical team performance.
+## 📖 Table of Contents
+- [Features](#-features)
+- [Tech Stack](#%EF%B8%8F-tech-stack)
+- [APIs Used](#-apis-used)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
 
-Retro Branding: High-quality historical NBA logos.
+---
 
-Single Page Architecture: Fast, fluid navigation for a seamless user experience.
+## ✨ Features
+- **Nostalgic Interface:** UI/UX themed specifically around the 2013/2014 NBA season.
+- **Dynamic Stats:** Real-time historical data fetching for all NBA teams.
+- **Era-Appropriate Visuals:** High-quality historical logos and branding.
+- **Optimized Performance:** Built with Vite for near-instant load times.
 
-🛠️ Tech Stack
-This project is built using modern web development tools for maximum performance:
+---
 
-Framework/Build Tool: Vite (Lightning fast HMR and bundling)
+## 🛠️ Tech Stack
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) with PostCSS
+- **Linting:** [ESLint](https://eslint.org/) (Standardized code quality)
+- **Deployment:** Render
 
-Styling: Tailwind CSS (Utility-first CSS via postcss)
+---
 
-Data Fetching: Integration with external REST APIs.
+## 🔌 APIs Used
+- **[BallDontLie](https://www.balldontlie.io/)** - For historical statistics and player data.
+- **NBA-Logos** - For sourcing period-accurate team assets.
 
-Deployment: Hosted on Render.
+---
 
-🔌 APIs Used
-To ensure data accuracy and visual authenticity, the following APIs are integrated:
+## 🚀 Getting Started
 
-BallDontLie: For accessing historical NBA player and team statistics.
+### Prerequisites
+- [Node.js](https://nodejs.org/) (Latest LTS recommended)
+- npm or yarn
 
-NBA-Logos: For sourcing era-appropriate team imagery.
-
-📦 Installation & Setup
-If you want to run this project locally, follow these steps:
-
-Clone the repository:
-
-Bash
-git clone https://github.com/Akiuui/NbaBefore.git
-Navigate to the directory:
-
-Bash
-cd NbaBefore
-Install dependencies:
-
-Bash
-npm install
-Launch the development server:
-
-Bash
-npm run dev
-📂 Project Structure
-/src: Contains the core logic and React/JavaScript components.
-
-/public: Static assets including icons and global files.
-
-tailwind.config.js: Custom styling configurations.
-
-vite.config.js: Build and server optimization settings.
-
-Created with ❤️ by Akiuui
+### Installation
+1. Clone the repo:
+   ```bash
+   git clone [https://github.com/Akiuui/NbaBefore.git](https://github.com/Akiuui/NbaBefore.git)
